@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include spokes_deepsense_app *.css
+recursive-include spokes_deepsense_app *.csv
+recursive-include spokes_deepsense_app *.html
+recursive-include spokes_deepsense_app *.ico
+recursive-include spokes_deepsense_app *.js
+recursive-include spokes_deepsense_app *.json
+recursive-include spokes_deepsense_app *.md
+recursive-include spokes_deepsense_app *.png
+recursive-include spokes_deepsense_app *.py
+recursive-include spokes_deepsense_app *.svg
+recursive-include spokes_deepsense_app *.txt
+recursive-exclude spokes_deepsense_app *.pyc
