@@ -11,6 +11,12 @@ app_color = "default"
 app_email = "benjamin.rosary@sybergate.co.in"
 app_license = "MIT"
 
+doc_events = {
+        "Salary Slip":{
+             "validate": "spokes_deepsense_app.custom_script.update_salary_structure"
+         }
+}
+
 # Includes in <head>
 # ------------------
 
