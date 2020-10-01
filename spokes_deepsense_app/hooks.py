@@ -17,6 +17,8 @@ doc_events = {
          }
 }
 
+fixtures = ["Custom Field", "Custom Script", "Property Setter", "Print Format"]
+
 # Includes in <head>
 # ------------------
 

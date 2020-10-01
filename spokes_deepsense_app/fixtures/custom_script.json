@@ -1,0 +1,24 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Salary Slip",
+  "modified": "2020-07-28 20:16:31.015825",
+  "name": "Salary Slip-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "var Count=1;\nfrappe.ui.form.on('Salary Slip', {\nvalidate:function(frm,cdt,cdn) {\nconsole.log(frm);\nvar row = locals[cdt][cdn];\nvar total=0;\nvar basic=0,gs=0,pft=0,esit=0,erpfc3=0,erpfc8=0,acno2=0,acno21=0,acno22=0,esice3=0,CTC=0;\n$.each(frm.doc.earnings,  function(i,  d) {\nif(d.salary_component == 'Basic'){\nbasic=d.amount;\n}\n// if(d.salary_component == 'PF Total'){\n// pft=d.amount;\n// }\n// if(d.salary_component == 'ESI Total'){\n// esit=d.amount;\n// }\n// if(d.salary_component == 'ER PF CONTRI 3.67%'){\n// erpfc3=d.amount;\n// }\n// if(d.salary_component == 'ER PF CONTRI 8.33%'){\n// erpfc8=d.amount;\n// }\n// if(d.salary_component == 'A/c No.2 (0.50%)'){\n// acno2=d.amount;\n// }\n// if(d.salary_component == 'A/c No.21 (0.5%)'){\n// acno21=d.amount;\n// }\n// if(d.salary_component == 'A/c No.22 (0.005% /0.1%)'){\n// acno22=d.amount;\n// }\n// if(d.salary_component == 'ESI Contribution for Employer(3.25%)'){\n// esice3=d.amount;\n// }\nif(d.salary_component == 'CTC'){\nctc=d.amount;\n}\n});\nif(basic<15000){\n    basic=basic;\n}\nelse{\n    basic=15000;\n}\npft=basic;\nif(frm.doc.gross_pay<21000){\n    gs=frm.doc.gross_pay;\n}\nelse{\n    gs=0;\n}\nesit=gs;\n//total = (basic+da)/frm.doc.total_working_days*(frm.doc.total_working_days-(frm.doc.leave_without_pay)+1);\n//frm.doc.spokes_esi_pf_doc_total=total;\nfrm.set_value(\"er_pf_contri_3_67\",Math.round(pft * 0.0367));\nerpfc3 = Math.round(pft * 0.0367);\nfrm.set_value(\"er_fpf_contri_8_33\",Math.round(pft * 0.0833));\nerpfc8 = Math.round(pft * 0.0833);\nfrm.set_value(\"ac_no_2\",Math.round(pft * 0.005));\nacno2 = Math.round(pft * 0.005);\nfrm.set_value(\"ac_no_21\",(pft * 0.005));\nacno21 = Math.round(pft * 0.005);\nfrm.set_value(\"ac_no_22_\",(pft * 0.0001 * 0));\nacno22 = Math.round(pft * 0.0001 * 0);\nfrm.set_value(\"esi_contribution_for_employer_3_25\",(esit * 0.0325));\nesice3 = Math.round(esit * 0.0325);\nfrm.set_value(\"ctc\",(frm.doc.gross_pay+erpfc3+erpfc8+acno2+acno21+acno22+esice3));\n\n//frm.set_value(\"spokes_other_deduction\",Math.round(LeaveDed+mobDed+Ins+frm.doc.total_loan_repayment));\n//frm.save();\n\n// else{\n//  frm.doc.spokes_esi_pf_doc_total=0.00;   \n//  frm.doc.spokes_eps_amount=0.00;   \n//  frm.doc.spokes_epf_eps_diff=0.00;\n//  frm.doc.spokes_gross_monthly_wage=0.00;\n//  frm.doc.spokes_other_allowances=0.00;\n//  frm.doc.spokes_other_deduction=0.00;\n//  frm.save();\n// }\n// if(Count==1)\n// {\n//   frm.save();\n//     Count =2;\n//  }\n}\n});"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Salary Structure",
+  "modified": "2020-07-29 12:12:18.856437",
+  "name": "Salary Structure-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "frappe.ui.form.on(\"Salary Detail\", \"amount\", function(frm, cdt, cdn) {\n\n   var salary_components = frm.doc.earnings;\n   var total = 0;\n   \n   for(var i in salary_components) {\n\ttotal = total + salary_components[i].amount\n  \n\t}\n\n\tfrm.set_value(\"spokes_gross_salary\",total);\n\n\n });\n \nfrappe.ui.form.on('Salary Detail', {\n earnings_remove: function(frm) {\n    var salary_components = frm.doc.earnings;\n   var total = 0;\n   \n   for(var i in salary_components) {\n\ttotal = total + salary_components[i].amount\n  \n\t}\n\n\tfrm.set_value(\"spokes_gross_salary\",total);\n\n    \n    }\n});"
+ }
+]

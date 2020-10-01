@@ -21,8 +21,6 @@ def execute(filters=None):
 	bnkacc_map = get_employee_bnkacc_map()
 	esi_map = get_employee_esi_map()
 	epf_map = get_employee_epf_map()
-	ss_ctctotal_map = get_ss_ctctotal_map(salary_slips)
-	ctcamount = 0
 
 	data = []
 	for ss in salary_slips:
@@ -45,7 +43,7 @@ def execute(filters=None):
 
 		row.append(ss.total_loan_repayment)
 
-		row += [ss.total_deduction, ss.net_pay,0]
+		row += [ss.total_deduction, ss.net_pay,ss.er_pf_contri_3_67,ss.er_fpf_contri_8_33,ss.ac_no_2,ss.ac_no_21,ss.ac_no_22_,ss.esi_contribution_for_employer_3_25,ss.ctc]
 
 		data.append(row)
 
@@ -77,7 +75,7 @@ def get_columns(salary_slips):
 
 	columns = columns + [(e + ":Currency:120") for e in salary_components[_("Earning")]] + \
 		[_("Gross Pay") + ":Currency:120"] + [(d + ":Currency:120") for d in salary_components[_("Deduction")]] + \
-		[_("Loan Repayment") + ":Currency:120", _("Total Deduction") + ":Currency:120", _("Net Pay") + ":Currency:120",_("CTC") + ":Currency:120"]
+		[_("Loan Repayment") + ":Currency:120", _("Total Deduction") + ":Currency:120", _("Net Pay") + ":Currency:120",_("ER PF CONTRI 3.67%") + ":Currency:120",_("ER FPF CONTRI 8.33%") + ":Currency:120",_("A/c No.2 (0.50%)") + ":Currency:120",_("A/c No.21 (0.5%)") + ":Currency:120",_("A/c No.22 (0.005% /0.1%)") + ":Currency:120",_("ESI Contribution for Employer(3.25%)") + ":Currency:120",_("CTC") + ":Currency:120"]
 
 	return columns, salary_components[_("Earning")], salary_components[_("Deduction")]
 
@@ -180,15 +178,3 @@ def get_ss_ded_map(salary_slips):
 		ss_ded_map[d.parent][d.salary_component] = flt(d.amount)
 
 	return ss_ded_map
-
-def get_ss_ctctotal_map(salary_slips):
-	ss_ctctotals = frappe.db.sql("""select parent, salary_component, amount
-		from `tabSalary Detail` where do_not_include_in_total = 1 and parent in (%s)""" %
-		(', '.join(['%s']*len(salary_slips))), tuple([d.name for d in salary_slips]), as_dict=1)
-
-	ss_ctctotal_map = {}
-	for d in ss_ctctotals:
-		ss_ctctotal_map.setdefault(d.parent, frappe._dict()).setdefault(d.salary_component, [])
-		ss_ctctotal_map[d.parent][d.salary_component] = flt(d.amount)
-
-	return ss_ctctotal_map
