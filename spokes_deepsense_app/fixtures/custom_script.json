@@ -20,5 +20,16 @@
   "parentfield": null,
   "parenttype": null,
   "script": "frappe.ui.form.on(\"Salary Detail\", \"amount\", function(frm, cdt, cdn) {\n\n   var salary_components = frm.doc.earnings;\n   var total = 0;\n   \n   for(var i in salary_components) {\n\ttotal = total + salary_components[i].amount\n  \n\t}\n\n\tfrm.set_value(\"spokes_gross_salary\",total);\n\n\n });\n \nfrappe.ui.form.on('Salary Detail', {\n earnings_remove: function(frm) {\n    var salary_components = frm.doc.earnings;\n   var total = 0;\n   \n   for(var i in salary_components) {\n\ttotal = total + salary_components[i].amount\n  \n\t}\n\n\tfrm.set_value(\"spokes_gross_salary\",total);\n\n    \n    }\n});"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Purchase Order",
+  "modified": "2020-10-28 17:16:58.236298",
+  "name": "Purchase Order-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "frappe.ui.form.on(\"Purchase Order\", \"validate\", function(frm) {\n    $.each(frm.doc.items || [], function(i, d) {\n        if (frm.doc.type==\"Normal\") {\n            console.log(frm.doc.type);\n\t\tif (d.project ===undefined ) {\n\t\t\tfrappe.validated = false;\n\t\t\t\n\t\t\tfrappe.msgprint({\n               message:__(\"Project Code Mandatory For \" + d.item_code),\n               indicator:'red'\n               });\n\t\t\treturn false;\n        }\n        // else\n        // {\n            \n            \n        // }\n        }\n        console.log(frm.doc.type);\n    });\n    \n});"
  }
 ]

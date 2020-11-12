@@ -15,6 +15,10 @@ doc_events = {
         "Salary Slip":{
              "validate": "spokes_deepsense_app.custom_script.update_salary_structure"
          }
+	#"Sales Order":{
+        #     "on_submit": "spokes_deepsense_app.custom_script.create_projectforsalesorder"
+        # }
+
 }
 
 fixtures = ["Custom Field", "Custom Script", "Property Setter", "Print Format"]
